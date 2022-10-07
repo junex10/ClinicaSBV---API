@@ -14,9 +14,9 @@ class HttpExceptionFilter implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
-        const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
-        const message = exception instanceof HttpException ? exception?.message : 'Internal server error'
-        const error = exception?.getResponse().error ?? 'Unknow error';
+        const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+        const message = exception instanceof HttpException ? exception?.message : 'Internal server error';
+        const error = exception?.getResponse() ?? message;
 
         response
             .status(status)
@@ -24,10 +24,10 @@ class HttpExceptionFilter implements ExceptionFilter {
                 status: status,
                 timestamp: new Date().toISOString(),
                 api: request.url,
-                error: process.env.NODE_ENV === 'development' ? error : message
+                error: error?.message ? error?.message : error.error
             });
-        this.logger.error(`Request API: ${request.url}\n Error: ${error}`);
-        this.errorLog(message, error, request.url);
+        this.logger.error(`Request API: ${request.url}\n Error: ${error.error}`);
+        this.errorLog(message, error.error, request.url);
     }
     private async errorLog(message: string, error: string, request: string) {
         const date = new Date();
