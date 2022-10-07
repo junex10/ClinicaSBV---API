@@ -4,35 +4,33 @@ const Constants = require('./../seeders/constants');
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('money_movements', {
+    await queryInterface.createTable('chats', {
       id: Constants.PRIMARY_KEY,
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      average: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      cash_movements_type_id: {
+      chat_session_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'cash_movements_type',
+          model: 'chats_session',
           key: 'id'
         }
       },
-      type: {
+      sender_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        default: 0,
-        comment: 'Equal = 0; Up = 1; Down = 2'
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+      message: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       ...Constants.DATES_CONTROL
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('money_movements');
+    await queryInterface.dropTable('chats');
   }
 };

@@ -10,6 +10,18 @@ import { Permissions } from './permissions';
 import { Person } from './person';
 import { Petition } from './petition';
 import { Process } from './process';
+import { ChatSession } from './chats-session';
+import { Chats } from './chats';
+import { ChatUsers } from './chats-users';
+import { EventsType } from './events-type';
+import { Events } from './events';
+import { PaymentsType } from './payments-type';
+import { Payments } from './payments';
+import { MedicalAppointments } from './medical-appointments';
+import { CashMovementsType } from './movement-type';
+import { MoneyMovements } from './money-movements';
+import { Specializations } from './specialization';
+import { Visits } from './visits';
 
 export {
 	Level,
@@ -23,5 +35,17 @@ export {
 	Permissions,
 	Person,
 	Petition,
-	Process
+	Process,
+	ChatSession,
+	Chats,
+	ChatUsers,
+	EventsType,
+	Events,
+	PaymentsType,
+	Payments,
+	MedicalAppointments,
+	CashMovementsType,
+	MoneyMovements,
+	Specializations,
+	Visits
 }

@@ -1,21 +1,20 @@
 'use strict';
 
+const Constants = require('../seeders/constants');
+
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    await queryInterface.createTable('visits', {
+      id: Constants.PRIMARY_KEY,
+      visits: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        default: '0'
+      }
+    });
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    await queryInterface.dropTable('visits');
   }
 };

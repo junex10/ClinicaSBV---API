@@ -4,33 +4,17 @@ const Constants = require('./../seeders/constants');
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('notifications', {
+    await queryInterface.createTable('chats_users', {
       id: Constants.PRIMARY_KEY,
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      message: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      notification_type_id: {
+      chat_session_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'notification_type',
+          model: 'chats_session',
           key: 'id'
         }
       },
-      receiver_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id'
-        }
-      },
-      sender_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -42,13 +26,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         default: 0,
-        comment: 'Not readed = 0; Readed = 1'
+        comment: 'Not read = 0; readed = 1'
       },
       ...Constants.DATES_CONTROL
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('notifications');
+    await queryInterface.dropTable('chats_users');
   }
 };
