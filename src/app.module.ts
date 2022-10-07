@@ -32,7 +32,19 @@ import {
   Actions,
   CompanyInformation,
   Petition,
-  Process
+  Process,
+	ChatSession,
+	Chats,
+	ChatUsers,
+	EventsType,
+	Events,
+	PaymentsType,
+	Payments,
+	MedicalAppointments,
+	CashMovementsType,
+	MoneyMovements,
+	Specializations,
+	Visits
 } from './models';
 
 @Module({
@@ -52,7 +64,19 @@ import {
         Actions,
         CompanyInformation,
         Petition,
-        Process
+        Process,
+        ChatSession,
+        Chats,
+        ChatUsers,
+        EventsType,
+        Events,
+        PaymentsType,
+        Payments,
+        MedicalAppointments,
+        CashMovementsType,
+        MoneyMovements,
+        Specializations,
+        Visits
       ]
     }),
     MailerModule.forRoot(MAIL_CONFIG),
