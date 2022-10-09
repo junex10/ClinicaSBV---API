@@ -30,6 +30,9 @@ export class User extends Model {
   @BelongsTo(() => Level, 'level_id')
   level: Level;
 
+  @BelongsTo(() => User, 'associated_id')
+  associated: User
+
   @Column
   token: string;
 

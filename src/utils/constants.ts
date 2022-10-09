@@ -49,5 +49,8 @@ export default {
 	},
 	MODULES: {
 		PROFILE: '/profile'
+	},
+	PETITIONS: {
+		ADD_ASSOCIATED: 1
 	}
 }

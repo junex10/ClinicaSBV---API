@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from "@nestjs/sequelize";
-import { ProfileService } from './profile.service';
-import { ProfileController } from './profile.controller';
+import { AssociatesService } from './associates.service';
+import { AssociatesController } from './associates.controller';
 import { Person, Petition, User } from 'src/models';
 
 @Module({
@@ -13,10 +13,10 @@ import { Person, Petition, User } from 'src/models';
         ])
     ],
     controllers: [
-        ProfileController
+        AssociatesController
     ],
     providers: [
-        ProfileService
+        AssociatesService
     ]
 })
-export class ProfileModule { }
+export class AssociatesModule { }

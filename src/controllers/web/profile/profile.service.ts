@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from "@nestjs/sequelize";
-import { Level, Person, User } from "src/models";
-import { Constants, Hash, Globals } from 'src/utils';
+import { Level, Person, User, Petition } from "src/models";
+import { Constants, Globals } from 'src/utils';
 import {
     UpdateUserDTO
 } from './profile.entity';
@@ -13,6 +13,7 @@ export class ProfileService {
     constructor(
         @InjectModel(User) private userModel: typeof User,
         @InjectModel(Person) private personModel: typeof Person,
+        @InjectModel(Petition) private petitionModel: typeof Petition,
     ) {
 
     }
@@ -28,8 +29,6 @@ export class ProfileService {
             {
                 email: request.email,
                 photo: file !== undefined ? ('users/' + file.filename) : user?.photo,
-                birthdate: request.birthdate !== null ? moment(request.birthdate).toDate() : '',
-                age,
                 level_id: request.level_id ?? user.level_id
             },
             {
@@ -42,7 +41,10 @@ export class ProfileService {
                     name: request.name,
                     lastname: request.lastname,
                     phone: request.phone,
-                    address: request.address
+                    address: request.address,
+                    birthdate: request.birthdate !== null ? moment(request.birthdate).toDate() : '',
+                    age,
+                    medical_history: 0
                 },
                 {
                     where: { user_id: request.id }

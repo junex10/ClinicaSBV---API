@@ -16,7 +16,8 @@ import {
   AuthModule,
   PetitionModule,
   NotificationsModule,
-  ProfileModule
+  ProfileModule,
+  PatientModule
 } from 'src/controllers';
 
 // Models
@@ -96,6 +97,7 @@ import {
     PetitionModule,
     NotificationsModule,
     ProfileModule,
+    PatientModule,
 
     ScheduleModule.forRoot()
   ],

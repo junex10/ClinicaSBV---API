@@ -37,7 +37,8 @@ export class ProfileController {
 					logged_in: user.logged_in,
 					verified: user.verified,
 					status: user.status,
-					person: user.person
+					person: user.person,
+					associated: user.associated
 				};
 				const token = JWTAuth.createToken({ permissions });
 				return response.status(HttpStatus.OK).json({

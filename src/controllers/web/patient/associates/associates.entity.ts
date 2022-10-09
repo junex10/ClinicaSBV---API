@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsEmail, MinLength, IsUrl, ValidateIf } from "class-validator";
+import { IsNotEmpty, IsEmail } from "class-validator";
 import { Transform, TransformFnParams } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateUserDTO {
+export class CreateAssociatedDTO {
     @ApiProperty()
     id: number;
 
@@ -26,9 +26,9 @@ export class UpdateUserDTO {
     @ApiProperty()
     document?: string;
     @ApiProperty()
-    new_password?: string;
-    @ApiProperty()
     level_id?: number;
     @ApiProperty()
     address?: string;
+    @ApiProperty()
+    associated_id: number;
 }
