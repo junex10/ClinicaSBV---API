@@ -69,8 +69,8 @@ export class AssociatesService {
         const users = await this.userModel.findAndCountAll({
 			distinct: true,
             col: 'id',
-            limit: 1,
-            offset: ((page || 1) - 1) * (1),
+            limit: Constants.PER_PAGE_WEB,
+            offset: ((page || Constants.PER_PAGE_WEB) - 1) * (Constants.PER_PAGE_WEB),
             order: [['id', 'desc']],
             attributes: { exclude: ['updated_at', 'deleted_at'] },
             include: ['person'],
