@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/sequelize";
 import { Person, User, Petition } from "src/models";
 import { Constants, Globals } from 'src/utils';
 import {
-    CreateAssociatedDTO
+    CreateAssociatedDTO, ModifyAssociatedDTO
 } from './associates.entity';
 import * as fs from 'fs';
 import * as moment from 'moment';
@@ -56,7 +56,6 @@ export class AssociatesService {
             )
             return await this.userModel.findOne(
                 { 
-                    include: ['person'],
                     where: { id: create.id } 
                 }
             );
@@ -65,19 +64,57 @@ export class AssociatesService {
         return null;
     }
 
-    getll = async (user_id: number, page?: number) => {
+    getAll = async (user_id: number, page?: number) => {
         const users = await this.userModel.findAndCountAll({
 			distinct: true,
-            col: 'id',
+            col: 'User.id',
             limit: Constants.PER_PAGE_WEB,
             offset: ((page || Constants.PER_PAGE_WEB) - 1) * (Constants.PER_PAGE_WEB),
             order: [['id', 'desc']],
             attributes: { exclude: ['updated_at', 'deleted_at'] },
-            include: ['person'],
             where: {
                 associated_id: user_id
             }
 		});
         return users;
+    }
+
+    getAssociated = async (user_id: number) => await this.userModel.findOne({ where: { id: user_id } });
+
+    modifyAssociated = async (request: ModifyAssociatedDTO, file: Express.Multer.File) => {
+        let auth = false;
+
+        const user = await this.userModel.findOne({ where: { id: request.user_id } });
+        if (file !== undefined && user?.photo !== null) {
+            const PATH = `./public/storage/${user?.photo}`;
+            if (fs.existsSync(PATH)) fs.unlinkSync(PATH);
+        }
+        const age = Globals.calculateAge(request.birthdate);
+        this.userModel.update(
+            {
+                email: request.email,
+                photo: file !== undefined ? ('users/' + file.filename) : user?.photo
+            },
+            {
+                where: { id: request.user_id }
+            }
+        )
+        .then(() => {
+            this.personModel.update(
+                {
+                    name: request.name,
+                    lastname: request.lastname,
+                    phone: request.phone,
+                    address: request.address,
+                    birthdate: request.birthdate !== null ? moment(request.birthdate).toDate() : '',
+                    age,
+                },
+                {
+                    where: { user_id: request.user_id }
+                }
+            );
+            auth = true;
+        })
+        return auth;
     }
 }

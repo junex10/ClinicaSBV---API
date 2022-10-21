@@ -24,7 +24,7 @@ export class AuthService {
 			include: [{
 				model: Level,
 				include: ['permissions']
-			}, 'person'],
+			}],
 			where: {
 				email,
 				verified: Constants.USER.USER_VERIFIED.VERIFIED

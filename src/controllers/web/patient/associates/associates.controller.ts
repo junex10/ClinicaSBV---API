@@ -1,9 +1,23 @@
-import { Body, Controller, Post, Res, HttpStatus, UseInterceptors, UploadedFile, UnprocessableEntityException, Get, Param } from '@nestjs/common';
+import { 
+    Body, 
+    Controller, 
+    Post, 
+    Res, 
+    HttpStatus, 
+    UseInterceptors, 
+    UploadedFile, 
+    UnprocessableEntityException,
+    Get,
+    Param,
+    Put
+} from '@nestjs/common';
 import { AssociatesService } from './associates.service';
 import { UploadFile } from 'src/utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { 
-    CreateAssociatedDTO
+    CreateAssociatedDTO, 
+    GetAssociatedDTO,
+    ModifyAssociatedDTO
 } from './associates.entity';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
@@ -35,15 +49,48 @@ export class AssociatesController {
         }
     }
     @Get('/getAll/:user_id/:page')
-    async getll(@Res() response: Response, @Param() params: { user_id: number, page?: number }) {
+    async getAll(@Res() response: Response, @Param() params: { user_id: number, page?: number }) {
         try {
-            const user = await this.associatesService.getll(params.user_id, params.page);
+            const user = await this.associatesService.getAll(params.user_id, params.page);
 			return response.status(HttpStatus.OK).json({
 				...user
 			});
         }
         catch(e) {
             throw new UnprocessableEntityException('No se pudo obtener a los asociados', e.message);
+        }
+    }
+    @Get('/getAssociated/:user_id')
+    async getAssociated(@Res() response: Response, @Param() params: GetAssociatedDTO) {
+        try {
+            const user = await this.associatesService.getAssociated(params.user_id);
+			return response.status(HttpStatus.OK).json({
+				user
+			});
+        }
+        catch(e) {
+            throw new UnprocessableEntityException('No se pudo obtener al asociado', e.message);
+        }
+    }
+    @Put('/modifyAssociated')
+    @UseInterceptors(FileInterceptor('photo',
+        UploadFile('users')
+    ))
+    async modifyAssociated(@Res() response: Response, @Body() body: ModifyAssociatedDTO, @UploadedFile() file: Express.Multer.File) {
+        try {
+            const update: boolean = await this.associatesService.modifyAssociated(body, file);
+			if (update) {
+                return response.status(HttpStatus.OK).json({
+                    message: 'Se ha actualizado el asociado'
+                });
+            } else {
+                return response.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
+                    message: 'No se pudo actualizar el asociado'
+                });
+            }
+        }
+        catch(e) {
+            throw new UnprocessableEntityException('No se pudo actualizar el asociado', e.message);
         }
     }
 }

@@ -55,7 +55,7 @@ export class ProfileService {
                     include: [{
                         model: Level,
                         include: ['permissions']
-                    }, 'person'],
+                    }],
                     where: { id: request.id } 
                 }
             );

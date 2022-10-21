@@ -8,6 +8,8 @@ import {
 @DefaultScope(() => ({
   include: [{
     model: Level
+  }, {
+    model: Person
   }]
 }))
 

@@ -32,3 +32,31 @@ export class CreateAssociatedDTO {
     @ApiProperty()
     associated_id: number;
 }
+
+export class GetAssociatedDTO {
+    @ApiProperty()
+    user_id: number;
+}
+
+export class ModifyAssociatedDTO {
+    @ApiProperty()
+    user_id: number;
+
+    @IsNotEmpty({ message: 'El campo email es requerido' })
+    @IsEmail({}, { message: 'El correo electrónico no es válido' })
+    @Transform(({ value }: TransformFnParams) => value.toLowerCase().trim())
+    email: string;
+    
+    @ApiProperty()
+    @IsNotEmpty({ message: 'El campo nombre es requerido' })
+    name: string;
+
+    @ApiProperty()
+    lastname?: string;
+    @ApiProperty()
+    phone?: string;
+    @ApiProperty()
+    address?: string;
+    @ApiProperty()
+    birthdate?: Date | string;
+}
