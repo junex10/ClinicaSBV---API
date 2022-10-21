@@ -55,8 +55,8 @@ export class AssociatesService {
                 }
             )
             return await this.userModel.findOne(
-                { 
-                    where: { id: create.id } 
+                {
+                    where: { id: create.id }
                 }
             );
         }
@@ -66,7 +66,7 @@ export class AssociatesService {
 
     getAll = async (user_id: number, page?: number) => {
         const users = await this.userModel.findAndCountAll({
-			distinct: true,
+            distinct: true,
             col: 'User.id',
             limit: Constants.PER_PAGE_WEB,
             offset: ((page || Constants.PER_PAGE_WEB) - 1) * (Constants.PER_PAGE_WEB),
@@ -75,14 +75,13 @@ export class AssociatesService {
             where: {
                 associated_id: user_id
             }
-		});
+        });
         return users;
     }
 
     getAssociated = async (user_id: number) => await this.userModel.findOne({ where: { id: user_id } });
 
     modifyAssociated = async (request: ModifyAssociatedDTO, file: Express.Multer.File) => {
-        let auth = false;
 
         const user = await this.userModel.findOne({ where: { id: request.user_id } });
         if (file !== undefined && user?.photo !== null) {
@@ -90,7 +89,7 @@ export class AssociatesService {
             if (fs.existsSync(PATH)) fs.unlinkSync(PATH);
         }
         const age = Globals.calculateAge(request.birthdate);
-        this.userModel.update(
+        const update = await this.userModel.update(
             {
                 email: request.email,
                 photo: file !== undefined ? ('users/' + file.filename) : user?.photo
@@ -98,8 +97,8 @@ export class AssociatesService {
             {
                 where: { id: request.user_id }
             }
-        )
-        .then(() => {
+        );
+        if (update !== null) {
             this.personModel.update(
                 {
                     name: request.name,
@@ -113,8 +112,8 @@ export class AssociatesService {
                     where: { user_id: request.user_id }
                 }
             );
-            auth = true;
-        })
-        return auth;
+        } else return false;
+
+        return true;
     }
 }
