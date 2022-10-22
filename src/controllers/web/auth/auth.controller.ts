@@ -25,7 +25,7 @@ import {
 	PagesDTO
 } from './auth.entity';
 import { AuthService } from './auth.service';
-import { Constants, Hash, UploadFile, JWTAuth } from 'src/utils';
+import { Constants, Hash, UploadFile, JWTAuth, Globals } from 'src/utils';
 
 @ApiTags('Auth')
 @Controller('api/auth')
@@ -48,6 +48,7 @@ export class AuthController {
 			if (await Hash.check(request.password, user.password)) {
 
 				const permissions = user.level.permissions;
+				const apiKey = Globals.getTokenByLevel(user.level.id);
 				const userFilter = {
 					id: user.id,
 					email: user.email,
@@ -63,7 +64,7 @@ export class AuthController {
 					person: user.person,
 					associated: user.associated
 				};
-				const token = JWTAuth.createToken({ permissions });
+				const token = JWTAuth.createToken({ permissions, key: apiKey });
 				return response.status(HttpStatus.OK).json({
 					data: {
 						user: userFilter,

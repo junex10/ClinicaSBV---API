@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { Constants } from './';
 
 class Globals {
     formatMiles = (n: any, decimals: boolean = true, currency: string = '$') => {
@@ -19,5 +20,10 @@ class Globals {
 	calculateAge = (birthdate: Date | string) => Math.floor((moment().unix() - moment(birthdate).unix()) / 31556926)
 
 	randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
+
+	getTokenByLevel = (level: number): {} => {
+		const token = Constants.TOKENS.find(c => c.LEVEL === level).KEY;
+		return token;
+	}
 }
 export default new Globals()

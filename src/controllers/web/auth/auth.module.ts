@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { SequelizeModule } from "@nestjs/sequelize";
-import { User, Modules, PasswordReset, Person } from 'src/models';
+import { User, Modules, PasswordReset, Person, Permissions } from 'src/models';
 
 @Module({
   imports: [
@@ -10,7 +10,8 @@ import { User, Modules, PasswordReset, Person } from 'src/models';
       User,
       Modules,
       PasswordReset,
-      Person
+      Person,
+      Permissions
     ])
   ],
   controllers: [

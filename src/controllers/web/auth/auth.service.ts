@@ -14,6 +14,7 @@ export class AuthService {
 		@InjectModel(PasswordReset) private passwordResetModel: typeof PasswordReset,
 		@InjectModel(Modules) private moduleModel: typeof Modules,
 		@InjectModel(Person) private personModel: typeof Person,
+		@InjectModel(Permissions) private permissionModel: typeof Permissions,
 		private mailerService: MailerService
 	) {
 
@@ -178,7 +179,16 @@ export class AuthService {
 		const readPermissions = JWTAuth.readToken(permissions);
 		const auth = await readPermissions.permissions.filter((value: any) => code === value.actions.code);
 		if (auth !== null) {
-			if (auth.length > 0) return true;
+			if (auth.length > 0) {
+				// Auth if the permissions exists in BD
+				const page = auth[0];
+				const checkBD = await this.permissionModel.findOne({ where: { action_id: page.action_id, level_id: page.level_id } });
+				
+				if (checkBD !== null) {
+					return true;
+				} 
+				return false;
+			}
 		}
 		return false;
 	}

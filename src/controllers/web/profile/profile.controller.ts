@@ -7,8 +7,10 @@ import {
 } from './profile.entity';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
+import { ProfileInterceptor } from 'src/interceptors';
 
 @ApiTags('Profile')
+@UseInterceptors(ProfileInterceptor)
 @Controller('api/profile')
 export class ProfileController {
     constructor(
