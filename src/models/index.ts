@@ -22,6 +22,7 @@ import { CashMovementsType } from './movement-type';
 import { MoneyMovements } from './money-movements';
 import { Specializations } from './specialization';
 import { Visits } from './visits';
+import { AppointmentsControl } from './appointments_control';
 
 export {
 	Level,
@@ -47,5 +48,6 @@ export {
 	CashMovementsType,
 	MoneyMovements,
 	Specializations,
-	Visits
+	Visits,
+	AppointmentsControl
 }

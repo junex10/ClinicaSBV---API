@@ -1,22 +1,18 @@
 import { Column, Model, Table, CreatedAt, UpdatedAt, DeletedAt, BelongsTo } from "sequelize-typescript";
 import {
-    Payments,
-    Specializations,
-    User
+  Specializations,
+  User
 } from '.';
 
 @Table({
   timestamps: true,
   paranoid: true,
-  tableName: 'medical_appointments'
+  tableName: 'appointments_control'
 })
-export class MedicalAppointments extends Model {
+export class AppointmentsControl extends Model {
 
-    @BelongsTo(() => User, 'patient_id')
-    patient: User;
-
-    @BelongsTo(() => Payments, 'payment_id')
-    payment: Payments;
+    @Column
+    day: string;
 
     @BelongsTo(() => User, 'doctor_id')
     doctor: User;
@@ -25,22 +21,10 @@ export class MedicalAppointments extends Model {
     specialization: Specializations;
 
     @Column
-    medical_reason: string;
+    specialization_id: number;
 
     @Column
-    medical_description: string;
-
-    @Column
-    date_cite: Date;
-
-    @Column
-    entry_date: Date;
-
-    @Column
-    amount: string;
-
-    @Column
-    status: number;
+    quotes_available: number;
 
     @CreatedAt
     @Column

@@ -46,7 +46,8 @@ import {
 	CashMovementsType,
 	MoneyMovements,
 	Specializations,
-	Visits
+	Visits,
+  AppointmentsControl
 } from './models';
 
 @Module({
@@ -78,7 +79,8 @@ import {
         CashMovementsType,
         MoneyMovements,
         Specializations,
-        Visits
+        Visits,
+        AppointmentsControl
       ]
     }),
     MailerModule.forRoot(MAIL_CONFIG),

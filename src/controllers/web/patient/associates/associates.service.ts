@@ -65,17 +65,28 @@ export class AssociatesService {
     }
 
     getAll = async (user_id: number, page?: number) => {
-        const users = await this.userModel.findAndCountAll({
-            distinct: true,
-            col: 'User.id',
-            limit: Constants.PER_PAGE_WEB,
-            offset: ((page || Constants.PER_PAGE_WEB) - 1) * (Constants.PER_PAGE_WEB),
-            order: [['id', 'desc']],
-            attributes: { exclude: ['updated_at', 'deleted_at'] },
-            where: {
-                associated_id: user_id
-            }
-        });
+        let users;
+        if (!page) {
+            users = await this.userModel.findAndCountAll({
+                distinct: true,
+                col: 'User.id',
+                limit: Constants.PER_PAGE_WEB,
+                offset: ((page || Constants.PER_PAGE_WEB) - 1) * (Constants.PER_PAGE_WEB),
+                order: [['id', 'desc']],
+                attributes: { exclude: ['updated_at', 'deleted_at'] },
+                where: {
+                    associated_id: user_id
+                }
+            });
+        } else {
+            users = await this.userModel.findAll({
+                order: [['id', 'desc']],
+                attributes: { exclude: ['updated_at', 'deleted_at'] },
+                where: {
+                    associated_id: user_id
+                }
+            });
+        }
         return users;
     }
 

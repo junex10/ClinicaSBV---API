@@ -36,7 +36,10 @@ module.exports = {
       DISABLED: 0
     },
     MODULES: {
-      PROFILE: 1
+      PROFILE: 1,
+      PATIENT: {
+        APPOINTMENTS: 2
+      }
     },
     ACTIONS: {
       MAIN: 1,

@@ -47,7 +47,10 @@ export class AuthController {
 
 			if (await Hash.check(request.password, user.password)) {
 
-				const permissions = user.level.permissions;
+				const jwtData = {
+					user_id: user.id,
+					level_id: user.level_id
+				}
 				const apiKey = Globals.getTokenByLevel(user.level.id);
 				const userFilter = {
 					id: user.id,
@@ -64,7 +67,7 @@ export class AuthController {
 					person: user.person,
 					associated: user.associated
 				};
-				const token = JWTAuth.createToken({ permissions, key: apiKey });
+				const token = JWTAuth.createToken({ jwtData, key: apiKey });
 				return response.status(HttpStatus.OK).json({
 					data: {
 						user: userFilter,

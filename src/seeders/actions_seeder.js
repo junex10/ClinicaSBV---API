@@ -22,6 +22,13 @@ module.exports = {
         name: 'Editar asociado',
         code: 'profile/associated-details'
       },
+      {
+        id: 3,
+        main: Constants.SEEDERS.ACTIONS.MAIN,
+        module_id: Constants.SEEDERS.MODULES.PATIENT.APPOINTMENTS,
+        name: 'Ver Solicitudes de Citas',
+        code: '/patient/appointments'
+      }
     ];
     return queryInterface.bulkInsert('actions',items);
   },

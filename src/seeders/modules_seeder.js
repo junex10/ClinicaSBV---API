@@ -14,6 +14,13 @@ module.exports = {
         icon: 'profile',
         code: 'profile',
         status: Constants.SEEDERS.MODULES_STATUS.AVAILABLE
+      },
+      {
+        id: 2,
+        name: 'Citas',
+        icon: 'appointments',
+        code: 'appointments',
+        status: Constants.SEEDERS.MODULES_STATUS.AVAILABLE
       }
     ];
     return queryInterface.bulkInsert('modules',items);

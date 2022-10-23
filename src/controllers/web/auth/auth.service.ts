@@ -176,18 +176,18 @@ export class AuthService {
 	}
 
 	checkPermissions = async (permissions: string, code: string): Promise<boolean> => {
-		const readPermissions = JWTAuth.readToken(permissions);
-		const auth = await readPermissions.permissions.filter((value: any) => code === value.actions.code);
+		const jwt = JWTAuth.readToken(permissions);
+		const user = await this.userModel.findOne({ 
+			include: [{
+				model: Level,
+				include: ['permissions']
+			}],
+			where: { id: jwt.jwtData?.user_id } 
+		});
+		const auth = user.level?.permissions.filter((value: any) => code === value.actions.code);
 		if (auth !== null) {
 			if (auth.length > 0) {
-				// Auth if the permissions exists in BD
-				const page = auth[0];
-				const checkBD = await this.permissionModel.findOne({ where: { action_id: page.action_id, level_id: page.level_id } });
-				
-				if (checkBD !== null) {
-					return true;
-				} 
-				return false;
+				return true;
 			}
 		}
 		return false;
