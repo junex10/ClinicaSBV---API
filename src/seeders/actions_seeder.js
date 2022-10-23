@@ -19,23 +19,9 @@ module.exports = {
         id: 2,
         main: Constants.SEEDERS.ACTIONS.NO_MAIN,
         module_id: Constants.SEEDERS.MODULES.PROFILE,
-        name: 'Editar perfil',
-        code: 'auth/edit-profile'
+        name: 'Editar asociado',
+        code: 'profile/associated-details'
       },
-      {
-        id: 3,
-        main: Constants.SEEDERS.ACTIONS.NO_MAIN,
-        module_id: Constants.SEEDERS.MODULES.PROFILE,
-        name: 'Crear perfil',
-        code: 'auth/edit-profile'
-      },
-      {
-        id: 4,
-        main: Constants.SEEDERS.ACTIONS.NO_MAIN,
-        module_id: Constants.SEEDERS.MODULES.PROFILE,
-        name: 'Exportar perfil',
-        code: 'auth/edit-profile'
-      }
     ];
     return queryInterface.bulkInsert('actions',items);
   },

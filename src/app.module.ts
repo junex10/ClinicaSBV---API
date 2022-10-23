@@ -101,7 +101,7 @@ import {
     PatientModule,
     AdminModule,
 
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
   ],
   providers: [
     SocketController

@@ -19,16 +19,6 @@ module.exports = {
         id: 2,
         action_id: 2,
         level_id: Constants.USERS.LEVELS.ADMIN
-      },
-      {
-        id: 3,
-        action_id: 3,
-        level_id: Constants.USERS.LEVELS.ADMIN
-      },
-      {
-        id: 4,
-        action_id: 4,
-        level_id: Constants.USERS.LEVELS.ADMIN
       }
     ];
     queryInterface.bulkInsert('permissions',items);
@@ -42,16 +32,6 @@ module.exports = {
         {
           id: 6,
           action_id: 2,
-          level_id: Constants.USERS.LEVELS.BOSS
-        },
-        {
-          id: 7,
-          action_id: 3,
-          level_id: Constants.USERS.LEVELS.BOSS
-        },
-        {
-          id: 8,
-          action_id: 4,
           level_id: Constants.USERS.LEVELS.BOSS
         }
       ];
@@ -67,16 +47,6 @@ module.exports = {
           id: 10,
           action_id: 2,
           level_id: Constants.USERS.LEVELS.DOCTOR
-        },
-        {
-          id: 11,
-          action_id: 3,
-          level_id: Constants.USERS.LEVELS.DOCTOR
-        },
-        {
-          id: 12,
-          action_id: 4,
-          level_id: Constants.USERS.LEVELS.DOCTOR
         }
       ];
       queryInterface.bulkInsert('permissions',items);
@@ -91,16 +61,6 @@ module.exports = {
           id: 14,
           action_id: 2,
           level_id: Constants.USERS.LEVELS.PATIENT
-        },
-        {
-          id: 15,
-          action_id: 3,
-          level_id: Constants.USERS.LEVELS.PATIENT
-        },
-        {
-          id: 16,
-          action_id: 4,
-          level_id: Constants.USERS.LEVELS.PATIENT
         }
       ];
       queryInterface.bulkInsert('permissions',items);
@@ -114,16 +74,6 @@ module.exports = {
         {
           id: 18,
           action_id: 2,
-          level_id: Constants.USERS.LEVELS.SECRETARY
-        },
-        {
-          id: 19,
-          action_id: 3,
-          level_id: Constants.USERS.LEVELS.SECRETARY
-        },
-        {
-          id: 20,
-          action_id: 4,
           level_id: Constants.USERS.LEVELS.SECRETARY
         }
       ];
