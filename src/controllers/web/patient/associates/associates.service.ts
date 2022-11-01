@@ -66,7 +66,7 @@ export class AssociatesService {
 
     getAll = async (user_id: number, page?: number) => {
         let users;
-        if (!page) {
+        if (page) {
             users = await this.userModel.findAndCountAll({
                 distinct: true,
                 col: 'User.id',

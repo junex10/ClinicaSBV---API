@@ -6,3 +6,10 @@ export class GetDoctorDTO {
     @ApiProperty()
     specialization_id: number;
 }
+export class GetDoctorAppointmentsDTO {
+    @ApiProperty()
+    doctor_id: number;
+
+    @ApiProperty()
+    specialization_id: number;
+}

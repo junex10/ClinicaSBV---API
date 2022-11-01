@@ -48,7 +48,7 @@ export class AssociatesController {
             throw new UnprocessableEntityException('No se pudo agregar el asociado', e.message);
         }
     }
-    @Get('/getAll/:user_id/:page')
+    @Get('/getAll/:user_id/:page?')
     async getAll(@Res() response: Response, @Param() params: { user_id: number, page?: number }) {
         try {
             const user = await this.associatesService.getAll(params.user_id, params.page);
