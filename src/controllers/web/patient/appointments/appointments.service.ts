@@ -7,9 +7,7 @@ import {
     MedicalAppointments
 } from "src/models";
 import { Constants, Globals } from 'src/utils';
-import {
-    
-} from './appointments.entity';
+import { RegisterAppointmentDTO } from './appointments.entity';
 import * as fs from 'fs';
 import * as moment from 'moment';
 import { Op, Sequelize } from 'sequelize';
@@ -48,7 +46,7 @@ export class AppointmentsService {
     getSpecializations = () => this.specializationModel.findAll({ attributes: ['id', 'code', 'name'] });
 
     getDoctor = (specialization_id: number) => 
-        this.appointmentsControlModel.findAll({ where: { specialization_id }, include: [{ model: User }] });
+        this.appointmentsControlModel.findAll({ where: { specialization_id }, include: [{ model: User }], group: ['doctor_id'] });
 
     getDoctorAppointments = async (doctor_id: number, specialization_id: number) => {
         const control = await this.appointmentsControlModel.findAll({ where: { doctor_id, specialization_id } });
@@ -93,6 +91,24 @@ export class AppointmentsService {
             days: daysToHide,
             weeks
         };
+    }
+
+    register = async (request: RegisterAppointmentDTO) => {
+        const control = await this.appointmentsControlModel.findOne({ where: { doctor_id: request.doctor, specialization_id: request.specialization } })
+        const register = await this.medicalAppointmentModel.create({
+            patient_id: request.patient,
+            doctor_id: request.doctor,
+            specialization_id: request.specialization,
+            medical_reason: request.medical_reason,
+            medical_description: request.medical_description,
+            date_cite: request.date_cite,
+            status: Constants.MEDICAL_APPOINTMENTS.STATUS.PENDING_CONFIRM,
+            amount: control.amount
+        });
+        if (register !== null) {
+            return register;
+        }
+        return false;
     }
 
     private formatDay = (day: string) => {

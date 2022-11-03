@@ -24,6 +24,9 @@ export class AppointmentsControl extends Model {
     specialization_id: number;
 
     @Column
+    amount: number;
+
+    @Column
     quotes_available: number;
 
     @CreatedAt

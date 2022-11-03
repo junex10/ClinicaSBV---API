@@ -16,7 +16,8 @@ import { UploadFile } from 'src/utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { 
     GetDoctorDTO,
-    GetDoctorAppointmentsDTO
+    GetDoctorAppointmentsDTO,
+    RegisterAppointmentDTO
 } from './appointments.entity';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
@@ -62,6 +63,19 @@ export class AppointmentsController {
     async getDoctorAppointments(@Res() response: Response, @Param() params: GetDoctorAppointmentsDTO) {
         try {
             const data = await this.appointmentsService.getDoctorAppointments(params.doctor_id, params.specialization_id);
+			return response.status(HttpStatus.OK).json({
+				data
+			});
+        }
+        catch(e) {
+            throw new UnprocessableEntityException('Ha ocurrido un error de conexión, intente más tarde', e.message);
+        }
+    }
+
+    @Post('/register')
+    async register(@Res() response: Response, @Body() request: RegisterAppointmentDTO) {
+        try {
+            const data = await this.appointmentsService.register(request);
 			return response.status(HttpStatus.OK).json({
 				data
 			});

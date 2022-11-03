@@ -13,3 +13,17 @@ export class GetDoctorAppointmentsDTO {
     @ApiProperty()
     specialization_id: number;
 }
+export class RegisterAppointmentDTO {
+    @ApiProperty()
+    medical_reason: string;
+    @ApiProperty()
+    specialization: number;
+    @ApiProperty()
+    doctor: number;
+    @ApiProperty()
+    medical_description: string;
+    @ApiProperty()
+    patient: number;
+    @ApiProperty()
+    date_cite: Date | string;
+}
