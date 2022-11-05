@@ -69,22 +69,28 @@ export default {
 		SATURDAY: 6,
 		SUNDAY: 7
 	},
-	DAYS_BD: {
-		MONDAY: 1,
-		TUESDAY: 2,
-		WEDNESDAY: 3,
-		THURSDAY: 4,
-		FRIDAY: 5,
-		SATURDAY: 6,
-		SUNDAY: 0
-	},
 	MEDICAL_APPOINTMENTS: {
 		STATUS: {
-			PENDING_CONFIRM: 1,
-			APPROVED: 2,
-			REJECTED: 3,
-			ENDED: 4,
-			DISCONTINUED: 0
+			PENDING_CONFIRM: {
+				CODE: 1,
+				TEXT: 'Pendiente por confirmación'
+			},
+			APPROVED: {
+				CODE: 2,
+				TEXT: 'Aprobado'
+			},
+			REJECTED: {
+				CODE: 3,
+				TEXT: 'Rechazado'
+			},
+			ENDED: {
+				CODE: 4,
+				TEXT: 'Finalizado'
+			},
+			DISCONTINUED: {
+				CODE: 0,
+				TEXT: 'Discontinuado'
+			}
 		}
 	}
 }

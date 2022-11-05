@@ -5,7 +5,8 @@ import {
     Specializations,
     AppointmentsControl,
     MedicalAppointments,
-    Payments
+    Payments,
+    CompanyInformation
 } from "src/models";
 import { Constants, Globals } from 'src/utils';
 import { 
@@ -15,6 +16,7 @@ import {
 import * as fs from 'fs';
 import * as moment from 'moment';
 import { Op, Sequelize } from 'sequelize';
+import { PDFService } from 'src/vendor/nestjs-pdf';
 
 @Injectable()
 export class AppointmentsService {
@@ -34,6 +36,8 @@ export class AppointmentsService {
         @InjectModel(Specializations) private specializationModel: typeof Specializations,
         @InjectModel(AppointmentsControl) private appointmentsControlModel: typeof AppointmentsControl,
         @InjectModel(MedicalAppointments) private medicalAppointmentModel: typeof MedicalAppointments,
+        @InjectModel(CompanyInformation) private companyInformationModel: typeof CompanyInformation,
+        private readonly pdfService: PDFService
     ) {
 
     }
@@ -73,7 +77,7 @@ export class AppointmentsService {
                 medical_reason: item.medical_reason,
                 medical_description: item.medical_description,
                 amount: item.amount,
-                status: item.status,
+                status: this.defineStatus(item.status)?.TEXT ?? 'Desconocido',
                 date_cite: moment(item.date_cite).format('DD/MM/YYYY'),
                 entry_date: moment(item.entry_date).format('DD/MM/YYYY h:mm a'),
             }
@@ -154,7 +158,32 @@ export class AppointmentsService {
         return false;
     }
 
+    getPDF = async (request: GetAppointmentsDTO) => {
+        const user = await this.userModel.findOne({ where: { id: request.user_id } });
+        const data = await this.appointments(request);
+
+        const company_information = (await this.companyInformationModel.findAll())[0];
+
+        const file = await this.pdfService.toBuffer('patient_appointments-list', {
+            locals: {
+                company_name: company_information.name,
+                company_email: company_information.email,
+                company_phone: company_information.phone,
+                company_rif: company_information.document,
+                company_address: company_information.address,
+                data: data.rows
+            }
+        }).toPromise();
+
+        const name = `pdf/ListadoCitas_${user.person?.name}_${user.person?.lastname}.pdf`;
+        fs.writeFileSync('public/storage/' + name, file);
+        return name;
+    }
+
     private formatDay = (day: string) => {
         return this.DAYS.find(val => val.day === day);
     }
+    private defineStatus = (status: number) => 
+        Object.values(Constants.MEDICAL_APPOINTMENTS.STATUS).find(item => status === item.CODE);
+
 }

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from "@nestjs/sequelize";
 import { AppointmentsService } from './appointments.service';
 import { AppointmentsController } from './appointments.controller';
-import { User, Specializations, AppointmentsControl, MedicalAppointments } from 'src/models';
+import { User, Specializations, AppointmentsControl, MedicalAppointments, CompanyInformation } from 'src/models';
 
 @Module({
     imports: [
@@ -10,7 +10,8 @@ import { User, Specializations, AppointmentsControl, MedicalAppointments } from 
             User,
             Specializations,
             AppointmentsControl,
-            MedicalAppointments
+            MedicalAppointments,
+            CompanyInformation
         ])
     ],
     controllers: [

@@ -99,4 +99,16 @@ export class AppointmentsController {
             throw new UnprocessableEntityException('Ha ocurrido un error de conexión, intente más tarde', e.message);
         }
     }
+    @Post('/getPDF')
+    async getPDF(@Res() response: Response, @Body() request: GetAppointmentsDTO) {
+        try {
+            const data = await this.appointmentsService.getPDF(request);
+			return response.status(HttpStatus.OK).json({
+				data
+			});
+        }
+        catch(e) {
+            throw new UnprocessableEntityException('Ha ocurrido un error de conexión, intente más tarde', e.message);
+        }
+    }
 }

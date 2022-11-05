@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Aldana Láser Center</title>
+  <style type="text/css">
+    .container {
+      font-family: Helvetica;
+      padding: 40px;
+    }
+
+    .container-logo {
+      text-align: center;
+    }
+
+    img {
+      width: 250px;
+    }
+
+    .title {
+      text-transform: uppercase;
+      font-weight: 300;
+      font-size: 30px;
+      margin-top: 40px;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td,
+    th {
+      padding: 2.5px;
+      font-size: 12px;
+    }
+
+    .table-principal {
+      width: 100%;
+    }
+
+    table thead {
+      background-color: rgb(191, 191, 191);
+    }
+
+    .company_info_td {
+      font-weight: bolder;
+      text-align: left;
+    }
+
+    ul li {
+      list-style: none;
+      margin-top: 10px;
+      font-size: 10px;
+    }
+
+    .title_head {
+      font-size: 10px;
+      padding: 6px;
+    }
+
+    table .content {
+      padding: 10px;
+    }
+
+    .company_info_td.rif {
+      color: #61F2C1;
+      font-size: 10px;
+    }
+
+    .resource-image {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="container-logo">
+      <!--<div class="resource-image">
+        <img src="{{ BASE_URL }}img/recurso_1.png" style="display:block;width: 100%" alt="Aldana Láser Center - recurso">
+      </div>-->
+      <table width="100%" align="center" bgcolor="#ffffff" border="0" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr style="width: 100%;">
+            <td>
+              <img src="{{ BASE_URL }}img/logo.png" style="display:block;width:200px;" alt="ClinicaSBV">
+            </td>
+            <td class="company_info_td">
+              <ul>
+                <li>{{ company_name }}</li>
+                <li>{{ company_email }}</li>
+                <li>{{ company_phone }}</li>
+                <li>{{ company_address }}</li>
+                <li class="company_info_td rif">RIF: {{ company_rif }}</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <table width="100%" border="1" class="table-principal">
+      <thead>
+        <th class="title_head">Nombre</th>
+        <th class="title_head">Apellido</th>
+        <th class="title_head">Razón de la cita</th>
+        <th class="title_head">Descripción</th>
+        <th class="title_head">Monto</th>
+        <th class="title_head">Estatus</th>
+        <th class="title_head">Fecha de la cita</th>
+        <th class="title_head">Fecha de entrada</th>
+      </thead>
+      <tbody>
+        {{#each data}}
+            <tr>
+                <td class="content">{{ name }}</td>
+                <td class="content">{{ lastname }}</td>
+                <td class="content">{{ medical_reason }}</td>
+                <td class="content">{{ medical_description }}</td>
+                <td class="content">{{ formatMiles(amount) }}</td>
+                <td class="content">{{ status }}</td>
+                <td class="content">{{ date_cite }}</td>
+                <td class="content">{{ entry_date }}</td>
+            </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>
