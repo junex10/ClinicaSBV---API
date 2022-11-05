@@ -23,6 +23,8 @@ export class PatientGuard implements CanActivate {
           throw new ForbiddenException(errorMessage);
         }
       }
+    } else {
+      throw new ForbiddenException(errorMessage);
     }
     return true;
   }

@@ -12,13 +12,19 @@ import {
 })
 export class MedicalAppointments extends Model {
 
-    @BelongsTo(() => User, 'patient_id')
+    @BelongsTo(() => User, {
+      as: 'patient',
+      foreignKey: 'patient_id'
+    })
     patient: User;
 
     @BelongsTo(() => Payments, 'payment_id')
     payment: Payments;
 
-    @BelongsTo(() => User, 'doctor_id')
+    @BelongsTo(() => User, {
+      as: 'doctor',
+      foreignKey: 'doctor_id'
+    })
     doctor: User;
 
     @BelongsTo(() => Specializations, 'specialization_id')

@@ -10,6 +10,7 @@ import {
     Get,
     Param,
     Put,
+    UseGuards,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { UploadFile } from 'src/utils';
@@ -17,20 +18,34 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { 
     GetDoctorDTO,
     GetDoctorAppointmentsDTO,
-    RegisterAppointmentDTO
+    RegisterAppointmentDTO,
+    GetAppointmentsDTO
 } from './appointments.entity';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
-import { PatientGuard } from 'src/guards/patient.guard';
+import { PatientGuard } from 'src/guards';
 
 @ApiTags('Patient - Appointments')
-@UseInterceptors(PatientGuard)
+@UseGuards(PatientGuard)
 @Controller('api/patient/appointments')
 export class AppointmentsController {
     constructor(
         private readonly appointmentsService: AppointmentsService
     ) {
 
+    }
+
+    @Post()
+    async appointments(@Res() response: Response, @Body() request: GetAppointmentsDTO) {
+        try {
+            const data = await this.appointmentsService.appointments(request);
+			return response.status(HttpStatus.OK).json({
+				data
+			});
+        }
+        catch(e) {
+            throw new UnprocessableEntityException('Ha ocurrido un error de conexión, intente más tarde', e.message);
+        }
     }
 
 	@Get('/getSpecializations')

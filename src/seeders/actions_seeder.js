@@ -26,8 +26,15 @@ module.exports = {
         id: 3,
         main: Constants.SEEDERS.ACTIONS.MAIN,
         module_id: Constants.SEEDERS.MODULES.PATIENT.APPOINTMENTS,
-        name: 'Ver Solicitudes de Citas',
+        name: 'Solicitar cita',
         code: '/patient/appointments'
+      },
+      {
+        id: 4,
+        main: Constants.SEEDERS.ACTIONS.NO_MAIN,
+        module_id: Constants.SEEDERS.MODULES.PATIENT.APPOINTMENTS,
+        name: 'Ver Solicitudes de Citas',
+        code: '/patient/appointments-list'
       }
     ];
     return queryInterface.bulkInsert('actions',items);

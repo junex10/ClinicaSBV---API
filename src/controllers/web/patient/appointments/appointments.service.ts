@@ -4,10 +4,14 @@ import {
     User,
     Specializations,
     AppointmentsControl,
-    MedicalAppointments
+    MedicalAppointments,
+    Payments
 } from "src/models";
 import { Constants, Globals } from 'src/utils';
-import { RegisterAppointmentDTO } from './appointments.entity';
+import { 
+    RegisterAppointmentDTO,
+    GetAppointmentsDTO
+} from './appointments.entity';
 import * as fs from 'fs';
 import * as moment from 'moment';
 import { Op, Sequelize } from 'sequelize';
@@ -24,15 +28,6 @@ export class AppointmentsService {
         { day: 'sabado', value: Constants.DAYS.SATURDAY },
         { day: 'domingo', value: Constants.DAYS.SUNDAY }
     ];
-    private DAYS_BD = [
-        { day: 'lunes', value: Constants.DAYS_BD.MONDAY },
-        { day: 'martes', value: Constants.DAYS_BD.TUESDAY },
-        { day: 'miercoles', value: Constants.DAYS_BD.WEDNESDAY },
-        { day: 'jueves', value: Constants.DAYS_BD.THURSDAY },
-        { day: 'viernes', value: Constants.DAYS_BD.FRIDAY },
-        { day: 'sabado', value: Constants.DAYS_BD.SATURDAY },
-        { day: 'domingo', value: Constants.DAYS_BD.SUNDAY }
-    ];
 
     constructor(
         @InjectModel(User) private userModel: typeof User,
@@ -41,6 +36,54 @@ export class AppointmentsService {
         @InjectModel(MedicalAppointments) private medicalAppointmentModel: typeof MedicalAppointments,
     ) {
 
+    }
+
+    appointments = async (request: GetAppointmentsDTO) => {
+        const users = await this.userModel.findAll({
+            where: {
+                [Op.or]: [{ id: request.user_id }, { associated_id: request.user_id }]
+            }
+        });
+
+        const users_id = users.map(item => (item.id));
+        
+        const medicalAppointment = await this.medicalAppointmentModel.findAndCountAll({
+            distinct: true,
+            col: 'id',
+            limit: request.per_page || Constants.PER_PAGE_WEB,
+            offset: ((request.page || 1) - 1) * (request.per_page || Constants.PER_PAGE_WEB),
+            order: [['id', 'desc']],
+            where: {
+                patient_id: {
+                    [Op.in]: users_id
+                }
+            },
+            include: [
+                { association: 'patient' },
+                { model: Payments },
+                { model: Specializations },
+                { association: 'doctor' }
+            ]
+        });
+        const data: unknown = medicalAppointment.rows.map(item => {
+            return {
+                id: item.id,
+                name: item.patient.person?.name,
+                lastname: item.patient.person?.lastname,
+                medical_reason: item.medical_reason,
+                medical_description: item.medical_description,
+                amount: item.amount,
+                status: item.status,
+                date_cite: moment(item.date_cite).format('DD/MM/YYYY'),
+                entry_date: moment(item.entry_date).format('DD/MM/YYYY h:mm a'),
+            }
+        });
+        const count: number = medicalAppointment.count as number;
+        const rows: unknown[] = data as unknown[];
+        return {
+            count,
+            rows
+        };
     }
 
     getSpecializations = () => this.specializationModel.findAll({ attributes: ['id', 'code', 'name'] });
@@ -79,7 +122,7 @@ export class AppointmentsService {
            if (days[0] !== false) daysToHide.push(days[0]);
         });
         const daysToShow = days.map(item => ( item.value ));
-        let weeks = this.DAYS_BD.map(item => ( item.value ));
+        let weeks = this.DAYS.map(item => ( item.value ));
         for (let x = 0; x < weeks.length; x++) {
             for (let y = 0; y < daysToShow.length; y++) {
                 if (weeks[x] === daysToShow[y]) {

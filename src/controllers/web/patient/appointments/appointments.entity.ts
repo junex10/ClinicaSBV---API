@@ -27,3 +27,11 @@ export class RegisterAppointmentDTO {
     @ApiProperty()
     date_cite: Date | string;
 }
+export class GetAppointmentsDTO {
+    @ApiProperty()
+    user_id: number;
+    @ApiProperty()
+    per_page?: number;
+    @ApiProperty()
+    page: number;
+}
