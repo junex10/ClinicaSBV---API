@@ -34,4 +34,6 @@ export class GetAppointmentsDTO {
     per_page?: number;
     @ApiProperty()
     page: number;
+    @ApiProperty()
+    filterType?: number;
 }

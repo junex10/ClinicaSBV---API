@@ -43,11 +43,37 @@ export class AppointmentsService {
     }
 
     appointments = async (request: GetAppointmentsDTO) => {
-        const users = await this.userModel.findAll({
-            where: {
-                [Op.or]: [{ id: request.user_id }, { associated_id: request.user_id }]
-            }
-        });
+        const options = {
+            ALL: 1,
+            ASSOCIATES: 2,
+            SELF: 3
+        };
+        let users: any;
+        switch(request.filterType) {
+            case options.ASSOCIATES:
+                users = await this.userModel.findAll({
+                    where: {
+                        associated_id: request.user_id 
+                    }
+                });
+            break;
+            case options.SELF:
+                users = await this.userModel.findAll({
+                    where: {
+                        id: request.user_id 
+                    }
+                });
+            break;
+            default:
+                users = await this.userModel.findAll({
+                    where: {
+                        [Op.or]: [{ id: request.user_id }, { associated_id: request.user_id }]
+                    }
+                });
+            break;
+        }
+
+        console.log(request, ' AQUI ')
 
         const users_id = users.map(item => (item.id));
         
