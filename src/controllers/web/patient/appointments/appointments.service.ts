@@ -8,7 +8,7 @@ import {
     Payments,
     CompanyInformation
 } from "src/models";
-import { Constants, Globals } from 'src/utils';
+import { Constants, Globals, CreateExcel } from 'src/utils';
 import { 
     RegisterAppointmentDTO,
     GetAppointmentsDTO
@@ -178,6 +178,31 @@ export class AppointmentsService {
         const name = `pdf/ListadoCitas_${user.person?.name}_${user.person?.lastname}.pdf`;
         fs.writeFileSync('public/storage/' + name, file);
         return name;
+    }
+
+    getExcel = async (request: GetAppointmentsDTO) => {
+        const user = await this.userModel.findOne({ where: { id: request.user_id } });
+        const appointments = await this.appointments(request);
+        const company_information = (await this.companyInformationModel.findAll())[0];
+
+        const data = appointments.rows.map((item: any) => ({
+            ['Nombre(s)']: item.name,
+            ['Apellido(s)']: item.lastname,
+            ['Razó de la cita']: item.medical_reason,
+            ['Descripción']: item.medical_description,
+            ['Monto']: item.amount,
+            ['Estatus']: item.status,
+            ['Fecha de la cita']: item.date_cite,
+            ['Fecha de entrada(s)']: item.entry_date,
+        }));
+
+        const excel = await CreateExcel(
+            `ListadoCitas_${user.person?.name}_${user.person?.lastname}`,
+            `Listado de Citas - ${user.person?.name} ${user.person?.lastname}`,
+            data,
+            'none'
+        );
+        return excel;
     }
 
     private formatDay = (day: string) => {
