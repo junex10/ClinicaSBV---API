@@ -102,9 +102,9 @@ export class AppointmentsController {
     @Post('/getPDF')
     async getPDF(@Res() response: Response, @Body() request: GetAppointmentsDTO) {
         try {
-            const data = await this.appointmentsService.getPDF(request);
+            const url = await this.appointmentsService.getPDF(request);
 			return response.status(HttpStatus.OK).json({
-				data
+				url
 			});
         }
         catch(e) {
