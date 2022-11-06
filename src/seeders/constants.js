@@ -39,7 +39,8 @@ module.exports = {
       PROFILE: 1,
       PATIENT: {
         APPOINTMENTS: 2
-      }
+      },
+      CHAT: 3
     },
     ACTIONS: {
       MAIN: 1,

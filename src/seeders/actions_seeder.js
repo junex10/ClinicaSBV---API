@@ -35,6 +35,20 @@ module.exports = {
         module_id: Constants.SEEDERS.MODULES.PATIENT.APPOINTMENTS,
         name: 'Ver Solicitudes de Citas',
         code: '/patient/appointments-list'
+      },
+      {
+        id: 5,
+        main: Constants.SEEDERS.ACTIONS.MAIN,
+        module_id: Constants.SEEDERS.MODULES.CHAT,
+        name: 'Ver Chats',
+        code: '/chats'
+      },
+      {
+        id: 6,
+        main: Constants.SEEDERS.ACTIONS.NO_MAIN,
+        module_id: Constants.SEEDERS.MODULES.CHAT,
+        name: 'Detalles de un chat',
+        code: '/chats/:id'
       }
     ];
     return queryInterface.bulkInsert('actions',items);

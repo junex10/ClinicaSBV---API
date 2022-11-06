@@ -55,7 +55,11 @@ export default {
 		NO_MAIN: 0
 	},
 	MODULES: {
-		PROFILE: '/profile'
+		PROFILE: '/profile',
+		PATIENTS: {
+			APPOINTMENTS: '/patient/appointments'
+		},
+		CHATS: '/chats'
 	},
 	PETITIONS: {
 		ADD_ASSOCIATED: 1
