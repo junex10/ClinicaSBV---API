@@ -49,7 +49,8 @@ export class ChatService {
 			});
 			data.push({
 				item,
-				message: lastMessage.message
+				lastMessage: lastMessage.message,
+				lastDateMessage: lastMessage.created_at
 			});
 		}
 
