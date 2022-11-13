@@ -19,6 +19,9 @@ export class ChatSession extends Model {
     @Column
     status: number;
 
+    @Column
+    name: string;
+
     @CreatedAt
     @Column
     created_at: Date;

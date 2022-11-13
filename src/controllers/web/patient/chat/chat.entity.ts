@@ -10,7 +10,7 @@ export class NewChatDTO {
     @ApiProperty()
     sender_id: number;
     @ApiProperty()
-    name?: string;
+    name: string;
 }
 export class NewMessageDTO {
     @ApiProperty()
