@@ -96,5 +96,11 @@ export default {
 				TEXT: 'Discontinuado'
 			}
 		}
+	},
+	CHATS: {
+		VIEWED: {
+			READED: 1,
+			UNREAD: 0
+		}
 	}
 }
