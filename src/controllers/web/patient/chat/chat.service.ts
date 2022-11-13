@@ -1,4 +1,4 @@
-import { Injectable, Body } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from "@nestjs/sequelize";
 import {
 	User,
@@ -15,8 +15,7 @@ import {
 	NewMessageDTO,
 	ViewedDTO
 } from './chat.entity';
-import { Constants, Hash, Globals, JWTAuth } from 'src/utils';
-import * as moment from 'moment';
+import { Constants } from 'src/utils';
 import { Op } from 'sequelize';
 
 @Injectable()
@@ -100,8 +99,14 @@ export class ChatService {
 		return null;
     };
 
-	getLogs = (request: GetLogsDTO) => 
-		this.chatModel.findAll({ where: { chat_session_id: request.chat_session_id } });
+	getLogs = async (request: GetLogsDTO) => {
+		const logs = await this.chatModel.findAll({ where: { chat_session_id: request.chat_session_id } });
+		const chat = await this.chatSessionModel.findOne({ where: { id: request.chat_session_id } });
+		return {
+			logs,
+			chat_name: chat.name
+		};
+	}
 
 	delete = async (request: DeleteDTO): Promise<boolean> => {
 		const host = await this.chatSessionModel.findOne({
