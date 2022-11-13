@@ -22,6 +22,9 @@ export class ChatSession extends Model {
     @Column
     name: string;
 
+    @Column
+    attachment: string;
+
     @CreatedAt
     @Column
     created_at: Date;
