@@ -7,8 +7,11 @@ import {
 	UnprocessableEntityException,
 	UseGuards,
 	Delete,
-	Get
+	Get,
+    UseInterceptors,
+    UploadedFiles
 } from '@nestjs/common';
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import {
@@ -21,6 +24,7 @@ import {
 } from './chat.entity';
 import { ChatService } from './chat.service';
 import { PatientGuard } from 'src/guards';
+import { UploadFile } from 'src/utils';
 
 @ApiTags('Chat - Patient')
 @UseGuards(PatientGuard)
@@ -65,9 +69,18 @@ export class ChatController {
     }
 
 	@Post('newMessage')
-    async newMessage(@Res() response: Response, @Body() request: NewMessageDTO) {
+    @UseInterceptors(FilesInterceptor('attachments', 5,
+      UploadFile('chat')
+    ))
+
+    async newMessage(
+        @Res() response: Response, 
+        @Body() request: NewMessageDTO, 
+        @UploadedFiles() files
+    ) {
+        console.log(files, ' AK ')
         try {
-            const message = await this.chatService.newMessage(request);
+            const message = await this.chatService.newMessage(request, files);
 			if (message) {
 				return response.status(HttpStatus.OK).json({
 					message

@@ -23,6 +23,7 @@ import { MoneyMovements } from './money-movements';
 import { Specializations } from './specialization';
 import { Visits } from './visits';
 import { AppointmentsControl } from './appointments_control';
+import { AttachmentsChats } from './attachments_chats';
 
 export {
 	Level,
@@ -49,5 +50,6 @@ export {
 	MoneyMovements,
 	Specializations,
 	Visits,
-	AppointmentsControl
+	AppointmentsControl,
+	AttachmentsChats
 }

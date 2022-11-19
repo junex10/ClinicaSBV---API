@@ -4,7 +4,8 @@ import {
 	User,
 	ChatSession,
 	Chats,
-	ChatUsers
+	ChatUsers,
+	AttachmentsChats
 } from "src/models";
 import { MailerService } from '@nestjs-modules/mailer';
 import {
@@ -17,6 +18,7 @@ import {
 } from './chat.entity';
 import { Constants } from 'src/utils';
 import { Op } from 'sequelize';
+import * as fs from 'fs';
 
 @Injectable()
 export class ChatService {
@@ -26,7 +28,7 @@ export class ChatService {
 		@InjectModel(Chats) private chatModel: typeof Chats,
 		@InjectModel(ChatSession) private chatSessionModel: typeof ChatSession,
 		@InjectModel(ChatUsers) private chatUsersModel: typeof ChatUsers,
-		private mailerService: MailerService
+		@InjectModel(AttachmentsChats) private attachmentsChatsModel: typeof AttachmentsChats,
 	) {
 
 	}
@@ -74,13 +76,22 @@ export class ChatService {
 		return null;
 	};
 
-	newMessage = async (request: NewMessageDTO) => {
+	newMessage = async (request: NewMessageDTO, files: { attachments: Express.Multer.File[] }) => {
+		//console.log(request, ' AK 47 ')
         const chat = await this.chatModel.create({
 			chat_session_id: request.session_id,
 			sender_id: request.sender_id,
 			message: request.message
 		});
 		if (chat) {
+			//if (files !== undefined) {
+				/*await this.attachmentsChatsModel.bulkCreate([
+					{
+
+					}
+				]);*/
+				//console.log(typeof files, ' AQUI ')
+			//}
 			await this.chatUsersModel.update(
 				{
 					viewed: Constants.CHATS.VIEWED.UNREAD

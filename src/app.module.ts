@@ -47,7 +47,8 @@ import {
 	MoneyMovements,
 	Specializations,
 	Visits,
-  AppointmentsControl
+  AppointmentsControl,
+  AttachmentsChats
 } from './models';
 
 @Module({
@@ -80,7 +81,8 @@ import {
         MoneyMovements,
         Specializations,
         Visits,
-        AppointmentsControl
+        AppointmentsControl,
+        AttachmentsChats
       ]
     }),
     MailerModule.forRoot(MAIL_CONFIG),

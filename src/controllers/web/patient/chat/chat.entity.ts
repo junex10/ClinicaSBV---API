@@ -19,6 +19,7 @@ export class NewMessageDTO {
     message: string;
     @ApiProperty()
     session_id: number;
+    attachments?: [];
 }
 export class GetLogsDTO{
     @ApiProperty()

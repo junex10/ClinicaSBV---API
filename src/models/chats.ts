@@ -1,7 +1,8 @@
-import { Column, Model, Table, CreatedAt, UpdatedAt, DeletedAt, BelongsTo } from "sequelize-typescript";
+import { Column, Model, Table, CreatedAt, UpdatedAt, DeletedAt, BelongsTo, HasMany } from "sequelize-typescript";
 import {
   User,
-  ChatSession
+  ChatSession,
+  AttachmentsChats
 } from '.';
 
 @Table({
@@ -16,6 +17,9 @@ export class Chats extends Model {
 
   @BelongsTo(() => User, 'sender_id')
   sender: User;
+
+  @HasMany(() => AttachmentsChats, 'chat_id')
+  attachments_chats: AttachmentsChats[];
 
   @Column
   message: string;
