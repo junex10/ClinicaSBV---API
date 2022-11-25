@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "activate": "pm2 start dist/main.js --name Aldana_11035"
+    "activate": "pm2 start dist/main.js --name ClinicaSBV_11035"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.6.0",

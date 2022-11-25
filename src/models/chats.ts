@@ -22,6 +22,12 @@ export class Chats extends Model {
   attachments_chats: AttachmentsChats[];
 
   @Column
+  sender_id: number;
+
+  @Column
+  chat_session_id: number;
+
+  @Column
   message: string;
 
   @CreatedAt

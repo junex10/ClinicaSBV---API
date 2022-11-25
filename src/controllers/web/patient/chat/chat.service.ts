@@ -5,7 +5,9 @@ import {
 	ChatSession,
 	Chats,
 	ChatUsers,
-	AttachmentsChats
+	AttachmentsChats,
+	Level,
+	Person
 } from "src/models";
 import { MailerService } from '@nestjs-modules/mailer';
 import {
@@ -16,7 +18,7 @@ import {
 	NewMessageDTO,
 	ViewedDTO
 } from './chat.entity';
-import { Constants } from 'src/utils';
+import { Constants, Globals } from 'src/utils';
 import { Op } from 'sequelize';
 import * as fs from 'fs';
 
@@ -76,22 +78,17 @@ export class ChatService {
 		return null;
 	};
 
-	newMessage = async (request: NewMessageDTO, files: { attachments: Express.Multer.File[] }) => {
-		//console.log(request, ' AK 47 ')
+	newMessage = async (request: NewMessageDTO, files: Express.Multer.File[]) => {
         const chat = await this.chatModel.create({
 			chat_session_id: request.session_id,
 			sender_id: request.sender_id,
 			message: request.message
 		});
 		if (chat) {
-			//if (files !== undefined) {
-				/*await this.attachmentsChatsModel.bulkCreate([
-					{
-
-					}
-				]);*/
-				//console.log(typeof files, ' AQUI ')
-			//}
+			if (files.length > 0) {
+				const attachment = files.map(item => ({ chat_id: chat.id, attachment: `chat/${item.filename}` }));
+				await this.attachmentsChatsModel.bulkCreate(attachment);
+			}
 			await this.chatUsersModel.update(
 				{
 					viewed: Constants.CHATS.VIEWED.UNREAD
@@ -115,7 +112,8 @@ export class ChatService {
 		const chat = await this.chatSessionModel.findOne({ where: { id: request.chat_session_id } });
 		return {
 			logs,
-			chat_name: chat.name
+			chat_name: chat.name,
+			photo: chat.attachment
 		};
 	}
 
@@ -154,5 +152,15 @@ export class ChatService {
 	}
 
 	getUsers = () => 
-		this.userModel.findAll({ where: { level_id: Constants.LEVELS.DOCTOR } })
+		this.userModel.findAll({ 
+			//where: { level_id: Constants.LEVELS.DOCTOR },
+			include: [{
+				model: Level,
+				attributes: ['name']
+			}, {
+				model: Person,
+				attributes: ['id', 'name', 'lastname']
+			}],
+			attributes: ['id', 'photo'] 
+		})
 }

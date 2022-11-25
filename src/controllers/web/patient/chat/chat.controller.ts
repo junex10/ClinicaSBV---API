@@ -76,9 +76,8 @@ export class ChatController {
     async newMessage(
         @Res() response: Response, 
         @Body() request: NewMessageDTO, 
-        @UploadedFiles() files
+        @UploadedFiles() files: Express.Multer.File[]
     ) {
-        console.log(files, ' AK ')
         try {
             const message = await this.chatService.newMessage(request, files);
 			if (message) {
@@ -142,9 +141,9 @@ export class ChatController {
 	@Get('getUsers')
     async getUsers(@Res() response: Response) {
         try {
-            const process = await this.chatService.getUsers();
+            const users = await this.chatService.getUsers();
 			return response.status(HttpStatus.OK).json({
-				process
+				users
 			});
         }
         catch (e) {
