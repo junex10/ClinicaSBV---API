@@ -52,8 +52,8 @@ export class ChatService {
 			});
 			data.push({
 				item,
-				lastMessage: lastMessage.message,
-				lastDateMessage: lastMessage.created_at
+				lastMessage: lastMessage?.message,
+				lastDateMessage: lastMessage?.created_at
 			});
 		}
 
@@ -61,12 +61,42 @@ export class ChatService {
 	}
 
 	newChat = async (request: NewChatDTO) => {
+		
+		const chats = await this.getChats({ user_id: request.sender_id });
+		const session = chats.map(value => ( value.item.chat_session_id ));
+
+		const searchChats = await this.chatUsersModel.findAll({
+			where: {
+				chat_session_id: {
+					[Op.in]: session
+				}
+			}
+		});
+
+		const ignoreChats = searchChats
+			.map((item: unknown) => ( ((item as { user_id: number })?.user_id !== request.sender_id) && item ))
+			.filter(x => x !== false);
+
+		for await (const item of ignoreChats) {
+			const value = (item as { user_id: number })?.user_id;
+			if (value === request.receiver_id) {
+				return null;
+			}
+		}
+		
 		const chatSession = await this.chatSessionModel.create({
 			host_id: request.sender_id,
 			name: request.name
 		});
 
 		if (chatSession) {
+			if (request.receiver_id) {
+				await this.chatUsersModel.create({
+					chat_session_id: chatSession.id,
+					user_id: request.receiver_id,
+					viewed: Constants.CHATS.VIEWED.UNREAD
+				})
+			}
 			await this.chatUsersModel.create({
 				chat_session_id: chatSession.id,
 				user_id: request.sender_id,
@@ -151,9 +181,9 @@ export class ChatService {
 		return false;
 	}
 
-	getUsers = () => 
-		this.userModel.findAll({ 
-			//where: { level_id: Constants.LEVELS.DOCTOR },
+	getUsers = () => {
+		return this.userModel.findAll({ 
+			where: { level_id: Constants.LEVELS.DOCTOR },
 			include: [{
 				model: Level,
 				attributes: ['name']
@@ -163,4 +193,5 @@ export class ChatService {
 			}],
 			attributes: ['id', 'photo'] 
 		})
+	}
 }

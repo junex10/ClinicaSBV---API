@@ -9,7 +9,8 @@ import {
 	Delete,
 	Get,
     UseInterceptors,
-    UploadedFiles
+    UploadedFiles,
+    Param
 } from '@nestjs/common';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
@@ -58,7 +59,7 @@ export class ChatController {
 				return response.status(HttpStatus.OK).json({
 					chats
 				});
-			} 
+			}
 			return response.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
 				error: 'No se pudo crear el chat'
 			});

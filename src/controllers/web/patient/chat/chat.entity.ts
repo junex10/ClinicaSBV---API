@@ -11,6 +11,8 @@ export class NewChatDTO {
     sender_id: number;
     @ApiProperty()
     name: string;
+    @ApiProperty()
+    receiver_id?: number;
 }
 export class NewMessageDTO {
     @ApiProperty()
