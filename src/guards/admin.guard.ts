@@ -7,7 +7,7 @@ export class AdminGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const auth = context.getArgs()[0]?.headers?.authorization;
+    const auth = context.getArgs()[0]?.headers?.authorization?.replace('Bearer ', '');
     const errorMessage = 'Acceso denegado, no hay suficientes permisos para realizar esta acción';
     if (auth !== '' && auth !== undefined) {
       const key = JWTAuth.readToken(auth)?.key;
