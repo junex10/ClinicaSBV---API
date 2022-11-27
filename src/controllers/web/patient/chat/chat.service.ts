@@ -42,8 +42,26 @@ export class ChatService {
 			},
 			include: [{ model: ChatSession }]
 		});
+		const sessions = chats.map(item => ( item.chat_session.id ));
+		const getOtherUser = await this.chatUsersModel.findAll({
+			where: {
+				user_id: {
+					[Op.ne]: request.user_id
+				},
+				chat_session_id: {
+					[Op.in]: sessions
+				}
+			},
+			include: [{
+				model: User,
+				attributes: ['email', 'id', 'photo'],
+				include: [{ model: Person, attributes: ['name', 'lastname'] }]
+			}, 'chat_session']
+		})
+
 		let data = [];
-		for await (const item of chats) {
+		for await (const item of getOtherUser) {
+			
 			const lastMessage = await this.chatModel.findOne({
 				where: {
 					chat_session_id: item.chat_session.id
@@ -138,11 +156,10 @@ export class ChatService {
     };
 
 	getLogs = async (request: GetLogsDTO) => {
-		const logs = await this.chatModel.findAll({ where: { chat_session_id: request.chat_session_id } });
+		const logs = await this.chatModel.findAll({ where: { chat_session_id: request.chat_session_id }, include: ['attachments_chats'] });
 		const chat = await this.chatSessionModel.findOne({ where: { id: request.chat_session_id } });
 		return {
 			logs,
-			chat_name: chat.name,
 			photo: chat.attachment
 		};
 	}
