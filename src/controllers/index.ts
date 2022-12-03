@@ -11,11 +11,23 @@ import { AdminModule } from "./web/admin/admin.module";
 // Patient
 import { PatientModule } from "./web/patient/patient.module";
 
+// Boss
+import { BossModule } from "./web/boss/boss.module";
+
+// Secretary
+import { SecretaryModule } from "./web/secretary/secretary.module";
+
+//Doctor
+import { DoctorModule } from "./web/doctor/doctor.module";
+
 export {
     AuthModule,
     PetitionModule,
     NotificationsModule,
     ProfileModule,
     PatientModule,
-    AdminModule
+    AdminModule,
+    BossModule,
+    DoctorModule,
+    SecretaryModule
 }
