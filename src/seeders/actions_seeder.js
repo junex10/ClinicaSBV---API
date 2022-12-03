@@ -25,14 +25,14 @@ module.exports = {
       {
         id: 3,
         main: Constants.SEEDERS.ACTIONS.MAIN,
-        module_id: Constants.SEEDERS.MODULES.PATIENT.APPOINTMENTS,
+        module_id: Constants.SEEDERS.MODULES.APPOINTMENTS.VIEW_APPOINTMENTS,
         name: 'Solicitar cita',
         code: '/patient/appointments'
       },
       {
         id: 4,
         main: Constants.SEEDERS.ACTIONS.NO_MAIN,
-        module_id: Constants.SEEDERS.MODULES.PATIENT.APPOINTMENTS,
+        module_id: Constants.SEEDERS.MODULES.APPOINTMENTS.VIEW_APPOINTMENTS,
         name: 'Ver Solicitudes de Citas',
         code: '/patient/appointments-list'
       },
@@ -45,10 +45,38 @@ module.exports = {
       },
       {
         id: 6,
+        main: Constants.SEEDERS.ACTIONS.MAIN,
+        module_id: Constants.SEEDERS.MODULES.APPOINTMENTS.DOCTOR.VIEW_APPOINTMENTS,
+        name: 'Ver listado de Citas del Doctor',
+        code: '/doctor/appointments/appointments-list'
+      },
+      {
+        id: 7,
         main: Constants.SEEDERS.ACTIONS.NO_MAIN,
-        module_id: Constants.SEEDERS.MODULES.CHAT,
-        name: 'Detalles de un chat',
-        code: '/chats/:id'
+        module_id: Constants.SEEDERS.MODULES.APPOINTMENTS.DOCTOR.VIEW_APPOINTMENTS,
+        name: 'Exportar listado de Citas',
+        code: '/doctor/appointments/appointments-list'
+      },
+      {
+        id: 8,
+        main: Constants.SEEDERS.ACTIONS.MAIN,
+        module_id: Constants.SEEDERS.MODULES.APPOINTMENTS.DOCTOR.VIEW_STATISTICS,
+        name: 'Exportar estadisticas del Doctor',
+        code: '/doctor/appointments/statistics'
+      },
+      {
+        id: 9,
+        main: Constants.SEEDERS.ACTIONS.MAIN,
+        module_id: Constants.SEEDERS.MODULES.STATISTICS.VIEW_STATISTICS,
+        name: 'Ver estadisticas',
+        code: '/admin/statistics'
+      },
+      {
+        id: 10,
+        main: Constants.SEEDERS.ACTIONS.NO_MAIN,
+        module_id: Constants.SEEDERS.MODULES.STATISTICS.VIEW_STATISTICS,
+        name: 'Exportar estadisticas',
+        code: '/admin/statistics'
       }
     ];
     return queryInterface.bulkInsert('actions',items);

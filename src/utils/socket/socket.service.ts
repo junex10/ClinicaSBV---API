@@ -41,7 +41,8 @@ export class SocketService {
 					}
 				}
 			);
-			return chat;
+			const getNewChat = await this.chatModel.findOne({ where: { id: chat.id }, include: ['attachments_chats'] });
+			return getNewChat;
 		}
 		return null;
 	}

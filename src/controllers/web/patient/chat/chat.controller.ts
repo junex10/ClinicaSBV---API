@@ -24,11 +24,11 @@ import {
 	ViewedDTO
 } from './chat.entity';
 import { ChatService } from './chat.service';
-import { PatientGuard } from 'src/guards';
+import { GeneralGuard } from 'src/guards';
 import { UploadFile } from 'src/utils';
 
 @ApiTags('Chat - Patient')
-@UseGuards(PatientGuard)
+@UseGuards(GeneralGuard)
 @Controller('api/patient/chat')
 export class ChatController {
 

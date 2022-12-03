@@ -37,10 +37,17 @@ module.exports = {
     },
     MODULES: {
       PROFILE: 1,
-      PATIENT: {
-        APPOINTMENTS: 2
+      CHAT: 3,
+      APPOINTMENTS: {
+        VIEW_APPOINTMENTS: 2,
+        DOCTOR: {
+          VIEW_APPOINTMENTS: 4,
+          VIEW_STATISTICS: 5
+        }
       },
-      CHAT: 3
+      STATISTICS: {
+        VIEW_STATISTICS: 6
+      }
     },
     ACTIONS: {
       MAIN: 1,

@@ -33,7 +33,11 @@ module.exports = {
         level_id: Constants.USERS.LEVELS.ADMIN
       },
       {
-        action_id: 6,
+        action_id: 9,
+        level_id: Constants.USERS.LEVELS.ADMIN
+      },
+      {
+        action_id: 10,
         level_id: Constants.USERS.LEVELS.ADMIN
       }
     ];
@@ -61,8 +65,12 @@ module.exports = {
           level_id: Constants.USERS.LEVELS.BOSS
         },
         {
-          action_id: 6,
-          level_id: Constants.USERS.LEVELS.BOSS
+          action_id: 9,
+          level_id: Constants.USERS.LEVELS.ADMIN
+        },
+        {
+          action_id: 10,
+          level_id: Constants.USERS.LEVELS.ADMIN
         }
       ];
       queryInterface.bulkInsert('permissions',items);
@@ -91,6 +99,10 @@ module.exports = {
         {
           action_id: 6,
           level_id: Constants.USERS.LEVELS.DOCTOR
+        },
+        {
+          action_id: 7,
+          level_id: Constants.USERS.LEVELS.DOCTOR
         }
       ];
       queryInterface.bulkInsert('permissions',items);
@@ -115,10 +127,6 @@ module.exports = {
         {
           action_id: 5,
           level_id: Constants.USERS.LEVELS.PATIENT
-        },
-        {
-          action_id: 6,
-          level_id: Constants.USERS.LEVELS.PATIENT
         }
       ];
       queryInterface.bulkInsert('permissions',items);
@@ -142,10 +150,6 @@ module.exports = {
         },
         {
           action_id: 5,
-          level_id: Constants.USERS.LEVELS.SECRETARY
-        },
-        {
-          action_id: 6,
           level_id: Constants.USERS.LEVELS.SECRETARY
         }
       ];

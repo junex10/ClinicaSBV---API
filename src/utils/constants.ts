@@ -59,7 +59,13 @@ export default {
 		PATIENTS: {
 			APPOINTMENTS: '/patient/appointments'
 		},
-		CHATS: '/chats'
+		CHATS: '/chats',
+		DOCTOR: {
+			VIEW_APPOINTMENTS: '/doctor/appointments/appointments-list',
+		},
+		ADMIN: {
+			VIEW_STATISTICS: '/admin/statistics'
+		}
 	},
 	PETITIONS: {
 		ADD_ASSOCIATED: 1
