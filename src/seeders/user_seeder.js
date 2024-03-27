@@ -13,7 +13,8 @@ module.exports = {
         password: bcrypt.hashSync('123456', salt),
         level_id: Constants.USERS.LEVELS.ADMIN,
         verified: Constants.SEEDERS.USER_VERIFIED.VERIFIED,
-        status: Constants.USERS.STATUS.ACTIVATED
+        status: Constants.USERS.STATUS.ACTIVATED,
+        logged_in: 0
       },
       {
         id: 2,
@@ -21,7 +22,8 @@ module.exports = {
         password: bcrypt.hashSync('123456', salt),
         level_id: Constants.USERS.LEVELS.BOSS,
         verified: Constants.SEEDERS.USER_VERIFIED.VERIFIED,
-        status: Constants.USERS.STATUS.ACTIVATED
+        status: Constants.USERS.STATUS.ACTIVATED,
+        logged_in: 0
       },
       {
         id: 3,
@@ -29,7 +31,8 @@ module.exports = {
         password: bcrypt.hashSync('123456', salt),
         level_id: Constants.USERS.LEVELS.SECRETARY,
         verified: Constants.SEEDERS.USER_VERIFIED.VERIFIED,
-        status: Constants.USERS.STATUS.ACTIVATED
+        status: Constants.USERS.STATUS.ACTIVATED,
+        logged_in: 0
       },
       {
         id: 4,
@@ -37,7 +40,8 @@ module.exports = {
         password: bcrypt.hashSync('123456', salt),
         level_id: Constants.USERS.LEVELS.DOCTOR,
         verified: Constants.SEEDERS.USER_VERIFIED.VERIFIED,
-        status: Constants.USERS.STATUS.ACTIVATED
+        status: Constants.USERS.STATUS.ACTIVATED,
+        logged_in: 0
       },
       {
         id: 5,
@@ -45,7 +49,8 @@ module.exports = {
         password: bcrypt.hashSync('123456', salt),
         level_id: Constants.USERS.LEVELS.PATIENT,
         verified: Constants.SEEDERS.USER_VERIFIED.VERIFIED,
-        status: Constants.USERS.STATUS.ACTIVATED
+        status: Constants.USERS.STATUS.ACTIVATED,
+        logged_in: 0
       }
     ];
     return queryInterface.bulkInsert('users',items);
